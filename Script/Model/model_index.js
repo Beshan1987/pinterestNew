@@ -1,7 +1,4 @@
 import { url } from './models_utils.js';
-import { CardView } from "../View/view_index.js";
-import { createCard } from '../View/CardList/CardList_utils.js';
-
 
 export function getData() {
     return fetch(url)

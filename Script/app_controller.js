@@ -1,13 +1,15 @@
-import { CardList } from "./View/CardList/CardList.js";
-import { CardView } from "./View/view_index.js";
+import { View } from "./View/view_index.js";
 import { CardModel, getData, getNewData } from "./Model/model_index.js";
 import { HeaderAction } from './View/view_constants.js';
 import { CardAction } from './basic_constants.js';
+import { ModalAction } from './View/view_constants.js';
+import { ModalForm } from './View/ModalView/ModalForm.js';
 
 export class CardController {
     constructor(containerId) {
         this.model = new CardModel();
-        this.view = new CardView({ containerId, onHeaderAction: this.onHeaderAction, onCardAction: this.onCardAction });
+        this.view = new View({ containerId, onHeaderAction: this.onHeaderAction, onCardAction: this.onCardAction });
+        this.modalForm = new ModalForm(this.onModalAction);
     }
 
     getSearch(searchURL) {
@@ -19,12 +21,8 @@ export class CardController {
                 })
     }
 
-    renderCards = (cards) => {
-        this.CardList.renderCards(cards);
-    }
-
-    getReboot(newURL) {
-        getNewData(newURL)
+    getReboot(url) {
+        getNewData(url)
             .then(
                 data => {
                     this.model.setCards(data);
@@ -37,20 +35,60 @@ export class CardController {
             case HeaderAction.search:
                 this.getSearch(payload);
                 break;
-            case HeaderAction.reboot:
+            case HeaderAction.reload:
                 this.getReboot(payload);
                 break;
         }
     }
 
+    onModalAction = (action, payload = undefined) => {
+        switch (action) {
+            case ModalAction.complain:
+                this.openComplainModal(payload);
+                break;
+            case ModalAction.cancel:
+                this.closeComplainModal(payload);
+                break;
+            case ModalAction.send:
+                this.sendComplain(payload);
+                break;
+        }
+    }
+    openComplainModal = (id) => {
+        this.modalForm.openComplainModal(id);
+    }
+
+
     openPhoto = (src) => {
         this.view.openPhoto(src);
     }
 
-    onCardAction = (action, payload) => {
+    openModal = (id) => {
+        this.modalForm.openModal(id);
+    }
+
+    onCardAction = (id) => {
+        this.view.openComplainModal();
+    }
+
+    closeComplainModal = () => {
+        this.modalForm.closeComplainModal();
+    }
+
+    sendComplain = (id) => {
+        this.modalForm.sendComplain(id);
+    }
+
+    onCardAction = (action, payload = undefined) => {
         switch (action) {
             case CardAction.OpenFull:
                 this.openPhoto(payload);
+                break;
+            case CardAction.OpenOptions:
+                this.openModal(payload);
+                break;
+            case CardAction.openComplainModal:
+                break;
         }
     }
 
@@ -63,3 +101,4 @@ export class CardController {
                 })
     }
 }
+
