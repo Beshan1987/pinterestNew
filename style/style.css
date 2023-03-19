@@ -39,11 +39,11 @@
 }
 
 .card-button{
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   position: relative;
-  bottom: 40px;
-  left: calc(100% - 40px);
+  bottom: 50px;
+  left: calc(100% - 50px);
   border-radius: 50%;
   border: none;
   background: white;
@@ -52,13 +52,14 @@
 }
 
 .card-button:hover{
-  background:#bdae82 ;
+  background:#ffc107 ;
   opacity: 1;
   border-radius: 30%;
 
 }
 .btnImg{
   pointer-events: none;
+  width: 100%;
 }
 
 .img-container:hover .card-button {
@@ -68,6 +69,7 @@
 .img-container {
   flex: 1;
   cursor: pointer;
+  min-height: 300px;    
 }
 
 .card-modal {
@@ -89,6 +91,7 @@
   display: block;
   width: 82%;
 }
+
 
 .modal-div {
    width: 100%;
@@ -196,15 +199,24 @@ header {
 
 /* Ссылки внутри выпадающего списка */
 .dropdown-content a {
-  color: black;
+  color: cadetblue;
   padding: 12px 16px;
   text-decoration: none;
-  display: block;
+  display: block;  
+}
+
+.bg-return-main{
+  background-color: #ffc107;
+}
+
+.text-align-center{
+  text-align: center;
 }
 
 /* Изменение цвета выпадающих ссылок при наведении курсора */
 .dropdown-content a:hover {
   background-color: #ddd;
+  cursor: pointer;
 }
 
 .show {
@@ -219,6 +231,8 @@ header {
   to {
     opacity: 1;
   }
+
+
 }
 .card-title {
   font-weight: 700;
