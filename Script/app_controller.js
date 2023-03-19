@@ -1,5 +1,5 @@
 import { View } from "./View/view_index.js";
-import { CardModel, getData, getNewData } from "./Model/model_index.js";
+import { CardModel } from "./Model/model_index.js";
 import { CardAction } from './basic_constants.js';
 import { ModalAction, boardNames, BoardsAction, HeaderAction } from './View/view_constants.js';
 import { ModalForm } from './View/ModalView/ModalForm.js';
@@ -13,22 +13,18 @@ export class CardController {
         this.render = this.renderCountCardstart(boardNames);
     }
 
-    getSearch(searchURL) {
-        getNewData(searchURL)
+    getSearch(url) {
+        console.log(url)
+        this.model.getSearchData(url)
             .then(
                 data => {
-                    this.model.setCards(data.results);
-                    this.view.renderCards(this.model.getCards());
+                    this.model.setCardsSearch(data.results);
+                    this.view.renderCards(this.model.getCardsSearch());
                 })
     }
 
-    getReboot(url) {
-        getNewData(url)
-            .then(
-                data => {
-                    this.model.setCards(data);
-                    this.view.renderCards(this.model.getCards());
-                })
+    getReboot() {
+        this.initialize()
     }
 
     onHeaderAction = (action, payload = undefined) => {
@@ -37,7 +33,7 @@ export class CardController {
                 this.getSearch(payload);
                 break;
             case HeaderAction.reload:
-                this.getReboot(payload);
+                this.getReboot();
                 break;
         }
     }
@@ -107,7 +103,9 @@ export class CardController {
     }
 
     restartMain = () => {
-        this.initialize();
+        if (this.model.getCardsSearch().length > 0) {
+            this.view.renderCards(this.model.getCardsSearch());
+        } else this.initialize();
     }
 
     refreshLocal = () => {
@@ -211,7 +209,7 @@ export class CardController {
     }
 
     initialize() {
-        getData()
+        this.model.getData()
             .then(
                 data => {
                     this.model.setCards(data);
