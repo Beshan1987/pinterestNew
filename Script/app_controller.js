@@ -143,7 +143,7 @@ export class CardController {
             console.log(deletedCards);
             const number = deletedCards.length;
             for (let i = 0; i <= number; i += 1) {
-                if (document.getElementById('board-info').getAttribute('name') === key) {
+                if (document.getElementById('board-info') && document.getElementById('board-info').getAttribute('name') === key) {
                     console.log(document.getElementById('board-info').getAttribute('name') === key);
                     this.view.removeBoardsInfo();
                     this.view.renderBoardInfo(key, number);
