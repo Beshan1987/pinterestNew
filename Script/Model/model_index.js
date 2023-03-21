@@ -1,4 +1,7 @@
 
+import { removeListeners, setPageURLs, setCurrPage } from '../app_controller_utils.js';
+import { addSearchElements, removeSearchElements } from '../View/view_utils.js';
+
 export const LocalStorageKey = {
     boards: 'boards',
     boardsForbidden: 'boardsForbidden',
@@ -41,6 +44,9 @@ export class CardModel {
         this.cardStorage = getSaveCards();
         this.cardStorageForbiddent = getForbiddenCards();
         this.cardContainer = document.querySelectorAll('div');
+        this.linkArr = [];
+        this.pageURLs = {};
+        this.currentSearchPage = '';
     }
 
     getData() {
@@ -102,8 +108,8 @@ export class CardModel {
         }
     }
 
-    deleteCard = (id) => {
-        const filter = this.cardStorage.filter((value) => value.id === id);
+    deleteCard = (id, nameBoard) => {
+        const filter = this.cardStorage.filter((value) => value.id === id && value.nameBoard === nameBoard);
         for (let i = 0; i < filter.length; i += 1) {
             const cardIndex = this.cardStorage.findIndex((value) => value.id === id);
             if (cardIndex > -1) {
@@ -124,7 +130,38 @@ export class CardModel {
     getLocalForbidden() {
         return JSON.parse(localStorage.getItem(LocalStorageKey.boardsForbidden));
     }
+    setCurrentSearchPage(searchURL) {
+        this.currentSearchPage = searchURL;
+    }
 
+    getCurrentSearchPage() {
+        return this.currentSearchPage.slice();
+    }
+
+    async getSearch(searchURL) {
+
+        removeListeners();
+        removeSearchElements();
+        this.setCurrentSearchPage(searchURL);
+
+        const response = await fetch(searchURL);
+
+        if (response.headers.get('link')) {
+            this.linkArr = response.headers.get('link').split(',');
+            setPageURLs(this.linkArr, this.pageURLs);
+        } else {
+            setPageURLs(this.linkArr, this.pageURLs);
+        }
+
+        const responseJSON = await response.json();
+
+        if (!document.getElementById('btn-container')) {
+            addSearchElements(searchURL, responseJSON.total);
+        }
+        setCurrPage(searchURL);
+
+        this.setCardsSearch(responseJSON.results);
+    }
 }
 
 

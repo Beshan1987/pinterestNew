@@ -25,8 +25,10 @@ export const ModalAction = {
 	addboard: 'add to a board',
 	complain: "complain",
 	addCardBoard: 'addCardBoard',
-	deleteCard: 'delete card out of boards',
-	alert: 'alert-added'
+	deleteCard: 'delete card out of board',
+	alert: 'alert-added',
+	alertComplain: 'alert-complaint',
+	successAddAlert: 'successAddAlert'
 };
 
 export const cardBoardAction = {
@@ -40,6 +42,7 @@ export const BoardsAction = {
 	deleteBoard: 'deleteBoard',
 	cleanBoardsCards: 'clean Boards cards',
 	returnToTheMainPage: 'Return to main',
+	returnToSearch: 'Return to search',
 	cleanBoard: 'Clean a bord',
 };
 

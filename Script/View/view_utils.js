@@ -63,8 +63,15 @@ export function createBoard() {
     const returnToTheMainPage = document.createElement('a');
     returnToTheMainPage.textContent = AddBtnNames.deleteAllboards;
     returnToTheMainPage.setAttribute('data-board-action', BoardsAction.returnToTheMainPage);
-    boardDrop.append(returnToTheMainPage)
+    boardDrop.append(returnToTheMainPage);
     returnToTheMainPage.textContent = `${BoardsAction.returnToTheMainPage}`;
+    returnToTheMainPage.classList.add('bg-warning', 'bg-gradient', 'fs-6');
+
+    const returnToSearch = document.createElement('a');
+    returnToSearch.textContent = BoardsAction.returnToSearch;
+    returnToSearch.setAttribute('data-board-action', BoardsAction.returnToSearch);
+    returnToSearch.classList.add('bg-warning', 'bg-gradient', 'fs-6');
+    boardDrop.append(returnToSearch);
     returnToTheMainPage.classList.add('bg-warning', 'bg-gradient', 'fs-6')
 
     boardContainer.append(boardBtn, boardDrop);
@@ -87,7 +94,8 @@ export function createCheckBoxesСomplain(causes) {
         checkBoxLabel.classList.add('form-check-label');
 
         checkBoxLabel.textContent = causesComplains[key];
-        checkBoxContainer.append(checkBoxinput, checkBoxLabel)
+        checkBoxLabel.append(checkBoxinput)
+        checkBoxContainer.append(checkBoxLabel)
 
         checkBoxContainerBasic.append(checkBoxContainer);
     }
@@ -140,6 +148,19 @@ export function addSearchInfo(searchURL, amount) {
 }
 
 export function removeSearchElements() {
-    document.getElementById('btn-container').remove();
-    document.getElementById('search-info').remove();
+    if (document.getElementById('btn-container')) {
+        document.getElementById('btn-container').remove();
+        document.getElementById('search-info').remove();
+    }
 }
+
+let prevScrollpos = window.pageYOffset;
+window.onscroll = function () {
+    let currentScrollPos = window.pageYOffset;
+    if (prevScrollpos > currentScrollPos) {
+        document.getElementById("header").style.top = "0";
+    } else {
+        document.getElementById("header").style.top = "-200px";
+    }
+    prevScrollpos = currentScrollPos;
+} 
