@@ -4,7 +4,7 @@ import { HeaderAction, AddBtnNames, BoardsAction } from '../view_constants.js';
 export function createHeader() {
     const header = document.createElement('header');
     header.classList.add(
-        'container-lg', 'd-flex', 'flex-wrap', 'justify-content-evenly', 'header_spacing', 'mb-4', 'padding-header', 'bg-light', 'rounded-pill', 'fixed-top', 'shadow-header');
+        'container-lg', 'd-flex', 'flex-wrap', 'justify-content-evenly', 'header_spacing', 'mb-4', 'padding-header', 'bg-light', 'rounded-pill', 'shadow-header');
     header.setAttribute('id', 'header')
 
 
@@ -24,4 +24,17 @@ export function createHeader() {
     header.append(btnLabel, searchForm, boardDropContainer);
 
     return header;
+}
+
+export function boardsInfo(name, numberItems) {
+    const boardsInfo = document.createElement('p');
+    boardsInfo.setAttribute('id', 'board-info');
+    boardsInfo.setAttribute('name', name);
+    boardsInfo.classList.add('search-info', 'container-sm', 'd-flex', 'justify-content-evenly');
+
+    if (numberItems === 0) {
+        boardsInfo.textContent = `you are on ${name}, but here nothing yet)`;
+    } else boardsInfo.textContent = `you are on ${name} with [${numberItems}] picture(s)`;
+
+    return boardsInfo;
 }

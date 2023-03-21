@@ -6,6 +6,7 @@ import { BoardModal } from "./ModalView/ModalAddCard/ModalAddCard.js";
 function createPinterestAppCard(header, cardList) {
 	const appCard = document.createElement('div');
 	appCard.classList.add('app-card', 'bg-light');
+	appCard.setAttribute('id', 'app-card');
 
 	appCard.append(header, cardList);
 	return appCard;
@@ -33,4 +34,21 @@ export class View {
 	openPhoto = (src) => {
 		this.cardList.openPhoto(src);
 	}
+	renderBoardInfo(numberItems, name) {
+		this.header.renderBoardInfo(numberItems, name);
+	}
+
+	removeBoardsInfo() {
+		this.header.removeBoardsInfo();
+	}
+
+	renderEmptyList() {
+		this.cardList.renderEmptyList();
+	}
+
+	openModalAlert = (cardId) => {
+		const card = document.getElementById(cardId);
+		card.append(this.cardModal);
+	}
+
 }

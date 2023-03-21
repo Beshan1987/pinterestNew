@@ -82,11 +82,9 @@ export function createCheckBoxesСomplain(causes) {
         const checkBoxinput = document.createElement('input');
         checkBoxinput.classList.add('form-check-input');
         checkBoxinput.setAttribute('type', 'checkbox');
-        // checkBoxinput.setAttribute('id', 'flexCheckDefault');
 
         const checkBoxLabel = document.createElement('label');
         checkBoxLabel.classList.add('form-check-label');
-        // checkBoxLabel.setAttribute('id', 'flexCheckDefault');
 
         checkBoxLabel.textContent = causesComplains[key];
         checkBoxContainer.append(checkBoxinput, checkBoxLabel)
@@ -96,4 +94,52 @@ export function createCheckBoxesСomplain(causes) {
     return checkBoxContainerBasic;
 }
 
+export function addSearchElements(searchURL, amount) {
+    const btnContainer = document.createElement('div');
+    btnContainer.setAttribute('id', 'btn-container');
 
+    const firstBtn = document.createElement('button');
+    firstBtn.setAttribute('id', 'button_first');
+    firstBtn.classList.add('button-page', 'first', 'btn', 'btn-warning');
+
+    const prevBtn = document.createElement('button');
+    prevBtn.setAttribute('id', 'button_prev');
+    prevBtn.classList.add('button-page', 'prev', 'btn', 'btn-warning');
+
+    const currBtn = document.createElement('button');
+    currBtn.setAttribute('id', 'button_curr');
+    currBtn.classList.add('button_curr', 'btn');
+
+    const nextBtn = document.createElement('button');
+
+    nextBtn.setAttribute('id', 'button_next');
+    nextBtn.classList.add('button-page', 'next', 'btn', 'btn-warning');
+
+    const lastBtn = document.createElement('button');
+    lastBtn.setAttribute('id', 'button_last');
+    lastBtn.classList.add('button-page', 'last', 'btn', 'btn-warning');
+
+    btnContainer.append(firstBtn, prevBtn, currBtn, nextBtn, lastBtn);
+
+    document.getElementById('card-container').after(btnContainer);
+    document.getElementById('card-container').before(addSearchInfo(searchURL, amount));
+}
+
+export function addSearchInfo(searchURL, amount) {
+    const searchInfo = document.createElement('p');
+    searchInfo.setAttribute('id', 'search-info');
+    searchInfo.classList.add('search-info', 'container-sm', 'd-flex', 'justify-content-evenly');
+
+    console.log(searchURL);
+
+    const searchQuery = searchURL.match(/(?<=per_page=28&query=)(.*)(?=)/g)[0];
+
+    searchInfo.textContent = `${amount} pictures found for: "${searchQuery}"`;
+
+    return searchInfo;
+}
+
+export function removeSearchElements() {
+    document.getElementById('btn-container').remove();
+    document.getElementById('search-info').remove();
+}

@@ -1,4 +1,4 @@
-import { createHeader } from './header_itils.js';
+import { createHeader, boardsInfo } from './header_itils.js';
 import { HeaderAction } from '../view_constants.js';
 import { BoardsAction } from '../view_constants.js';
 
@@ -26,12 +26,11 @@ export class Header {
         event.preventDefault();
         const { value } = this.cardContainer.children[1].firstChild;
         const formattedValue = value.trim();
-        let searchURL = `https://api.unsplash.com/search/photos?page=
-        ${this.randomNumberSearch()}&query=${formattedValue}
-        &per_page=28&client_id=04ufwLfYkUW_uO9OlQOojuE9hQFxR0veEPagGYh0VGA`;
+        let searchURL = `https://api.unsplash.com/search/photos?client_id=04ufwLfYkUW_uO9OlQOojuE9hQFxR0veEPagGYh0VGA&per_page=28&query=${formattedValue}`;
         if (formattedValue) {
             this.onHeaderAction(HeaderAction.search, searchURL);
             this.cardContainer.children[1].reset();
+            this.removeBoardsInfo()
         }
     }
 
@@ -56,6 +55,16 @@ export class Header {
                 break;
             case HeaderAction.reload:
                 this.onHeaderAction(HeaderAction.reload);
+        }
+    }
+
+    renderBoardInfo = (numberItems, name) => {
+        document.getElementById('header').after(boardsInfo(numberItems, name));
+    }
+
+    removeBoardsInfo = () => {
+        if (document.getElementById('board-info')) {
+            return document.getElementById('board-info').remove();
         }
     }
 }
